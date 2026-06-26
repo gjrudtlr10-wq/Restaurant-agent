@@ -75,7 +75,7 @@ if destination:
         except Exception as e:
             st.error(f"AI 호출 중 오류가 발생했습니다: {e}")
 
-    # 2단계: 식당 선택 및 현재 위치 입력 후 길찾기
+   # 2단계: 식당 선택 및 현재 위치 입력 후 길찾기
     st.header("2. 진짜 길찾기 안내")
     selected_restaurant = st.text_input("위 추천 맛집 중 가고 싶은 식당 이름을 입력하세요:", key="rest_input")
     current_location = st.text_input("현재 계신 위치(출발지)를 입력하세요:", key="curr_input")
@@ -84,13 +84,16 @@ if destination:
         st.subheader("🧭 실제 지도 연결")
         st.write("입력하신 출발지와 목적지가 자동으로 세팅된 실시간 경로 지도입니다. 아래 버튼을 눌러 바로 확인하세요!")
         
-        # 🔗 지도 서비스가 한글을 정확히 읽을 수 있도록 글자 인코딩
+        # 🔗 공백이나 특수문자를 지도 사이트가 오작동 없이 읽도록 인코딩
         start_place = urllib.parse.quote(current_location)
         end_place = urllib.parse.quote(f"{destination} {selected_restaurant}")
         
-        # ⭐ [수정] 출발지와 목적지가 100% 자동 입력되는 최신 공식 길찾기 링크 주소
-        kakao_map_url = f"https://map.kakao.com/?sName={start_place}&eName={end_place}"
-        naver_map_url = f"https://map.naver.com/v5/dir/{start_place}/{end_place}"
+        # 🚀 [강력 처방] 출발지와 목적지를 강제로 주입하는 최신 공식 파라미터 규격
+        # 네이버: v5 전용 dir_from / dir_to 규격 사용
+        naver_map_url = f"https://map.naver.com/v5/dir/?c=14135000,3753000,15,0,0,0,dh&sText={start_place}&eText={end_place}"
+        
+        # 카카오: 주소창 강제 주입 전용 규격
+        kakao_map_url = f"https://map.kakao.com/?target=car&sName={start_place}&eName={end_place}"
         
         # 스트림릿 화면에 이쁜 버튼으로 배치
         col1, col2 = st.columns(2)
