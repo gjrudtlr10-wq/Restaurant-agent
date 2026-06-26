@@ -5,7 +5,7 @@ from groq import Groq
 import re
 import urllib.parse # 주소에 한글이 들어갈 수 있도록 인코딩해주는 도구
 
-st.title("🗺️ 100% 실존 맛집 추천 & 진짜 길찾기 에이전트")
+st.title("🗺️ 국내 맛집 추천 & 길찾기 에이전트")
 st.write("실시간 데이터와 실제 지도 서비스를 연동하여 할루시네이션이 전혀 없는 서비스를 제공합니다.")
 
 # 🔒 [보안 유지] 스트림릿 클라우드의 비밀 주머니(Secrets)에서 키를 읽어옵니다.
