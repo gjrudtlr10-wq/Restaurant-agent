@@ -82,22 +82,22 @@ if destination:
 
     if selected_restaurant and current_location:
         st.subheader("🧭 실제 지도 연결")
-        st.write("입력하신 출발지와 목적지가 자동으로 세팅된 실시간 경로 지도입니다. 아래 버튼을 눌러 바로 확인하세요!")
+        st.write("아래 버튼을 누르면 입력하신 출발지와 목적지가 적용된 실시간 경로 화면으로 이동합니다.")
         
-        # 🔗 공백이나 특수문자를 지도 사이트가 오작동 없이 읽도록 인코딩
-        start_place = urllib.parse.quote(current_location)
-        end_place = urllib.parse.quote(f"{destination} {selected_restaurant}")
+        # 🔗 공백이나 특수문자를 제거하고 지도 서비스가 가장 좋아하는 순수 글자로 인코딩
+        start_place = urllib.parse.quote(current_location.strip())
+        end_place = urllib.parse.quote(f"{destination.strip()} {selected_restaurant.strip()}")
         
-        # 🚀 [강력 처방] 출발지와 목적지를 강제로 주입하는 최신 공식 파라미터 규격
-        # 네이버: v5 전용 dir_from / dir_to 규격 사용
-        naver_map_url = f"https://map.naver.com/v5/dir/?c=14135000,3753000,15,0,0,0,dh&sText={start_place}&eText={end_place}"
+        # 🚀 [최종 처방] 대기업들이 공유하기 버튼을 누를 때 쓰는 가장 순수하고 확실한 대중교통/길찾기 공식 URL 규격
+        # 네이버 지도 최신 웹 앱 연동 규격
+        naver_map_url = f"https://map.naver.com/v5/dir/{start_place}/{end_place}/subway"
         
-        # 카카오: 주소창 강제 주입 전용 규격
-        kakao_map_url = f"https://map.kakao.com/?target=car&sName={start_place}&eName={end_place}"
+        # 카카오맵 공식 길찾기 웹 연동 규격
+        kakao_map_url = f"https://map.kakao.com/link/to/{end_place},from/{start_place}"
         
         # 스트림릿 화면에 이쁜 버튼으로 배치
         col1, col2 = st.columns(2)
         with col1:
-            st.link_button("💛 카카오맵 자동 길찾기", kakao_map_url, use_container_width=True)
+            st.link_button("💛 카카오맵 경로 확인하기", kakao_map_url, use_container_width=True)
         with col2:
-            st.link_button("💚 네이버맵 자동 길찾기", naver_map_url, use_container_width=True)
+            st.link_button("💚 네이버맵 경로 확인하기", naver_map_url, use_container_width=True)
