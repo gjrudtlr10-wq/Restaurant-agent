@@ -81,23 +81,16 @@ if destination:
     current_location = st.text_input("현재 계신 위치(출발지)를 입력하세요:", key="curr_input")
 
     if selected_restaurant and current_location:
-        st.subheader("🧭 실제 지도 연결")
-        st.write("아래 버튼을 누르면 입력하신 출발지와 목적지가 적용된 실시간 경로 화면으로 이동합니다.")
+        st.subheader("🧭 구글 맵 실시간 경로 연결")
+        st.write("구글 맵 공식 길찾기 엔진을 통해 입력하신 출발지와 목적지가 자동으로 세팅된 경로를 보여줍니다.")
         
-        # 🔗 공백이나 특수문자를 제거하고 지도 서비스가 가장 좋아하는 순수 글자로 인코딩
+        # 🔗 구글 맵이 인식할 수 있도록 주소 텍스트를 인코딩
+        # '목적지 도시 이름 + 식당 이름'을 합쳐서 구글 맵이 정확한 위치를 찾도록 돕습니다.
         start_place = urllib.parse.quote(current_location.strip())
         end_place = urllib.parse.quote(f"{destination.strip()} {selected_restaurant.strip()}")
         
-        # 🚀 [최종 처방] 대기업들이 공유하기 버튼을 누를 때 쓰는 가장 순수하고 확실한 대중교통/길찾기 공식 URL 규격
-        # 네이버 지도 최신 웹 앱 연동 규격
-        naver_map_url = f"https://map.naver.com/v5/dir/{start_place}/{end_place}/subway"
+        # 🚀 [구글 맵 공식 규격] 무조건 출발지와 목적지가 자동 주입되는 전용 링크
+        google_map_url = f"https://www.google.com/maps/dir/{start_place}/{end_place}"
         
-        # 카카오맵 공식 길찾기 웹 연동 규격
-        kakao_map_url = f"https://map.kakao.com/link/to/{end_place},from/{start_place}"
-        
-        # 스트림릿 화면에 이쁜 버튼으로 배치
-        col1, col2 = st.columns(2)
-        with col1:
-            st.link_button("💛 카카오맵 경로 확인하기", kakao_map_url, use_container_width=True)
-        with col2:
-            st.link_button("💚 네이버맵 경로 확인하기", naver_map_url, use_container_width=True)
+        # 스트림릿 화면에 이쁜 구글 맵 이동 버튼 배치
+        st.link_button("💙 구글 맵으로 실시간 자동 길찾기", google_map_url, use_container_width=True)
