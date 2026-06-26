@@ -53,7 +53,8 @@ if destination:
         st.warning("실시간 맛집 데이터를 가져오지 못했습니다. 일반 AI 모드로 전환합니다.")
         real_restaurant_list = ["알 수 없음"]
 
-recommend_prompt = f"""
+    # ⭐ 들여쓰기 라인을 맞춘 업그레이드 프롬프트
+    recommend_prompt = f"""
     너는 대한민국 최고의 맛집 가이드이자 빅데이터 기반의 인공지능 비서야.
     사용자가 '{destination}'을(를) 검색해서 나온 실제 식당 리스트는 다음과 같아:
     [{', '.join(real_restaurant_list)}]
@@ -75,6 +76,7 @@ recommend_prompt = f"""
     ---
     """
     
+    # 🚨 [해결] 이 부분의 들여쓰기(스페이스 4칸)를 위 코드들과 일직선으로 똑같이 맞췄습니다.
     with st.spinner("AI가 진짜 맛집 정보를 요약하고 있습니다..."):
         try:
             response = client.chat.completions.create(
@@ -85,7 +87,7 @@ recommend_prompt = f"""
             st.write(recommendations)
         except Exception as e:
             st.error(f"AI 호출 중 오류가 발생했습니다: {e}")
-
+            
    # 2단계: 식당 선택 및 현재 위치 입력 후 길찾기
     st.header("2. 진짜 길찾기 안내")
     selected_restaurant = st.text_input("위 추천 맛집 중 가고 싶은 식당 이름을 입력하세요:", key="rest_input")
