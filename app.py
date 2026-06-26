@@ -82,19 +82,19 @@ if destination:
 
     if selected_restaurant and current_location:
         st.subheader("🧭 실제 지도 연결")
-        st.write("AI의 가짜 안내 대신, 실제 카카오맵과 네이버맵의 정확한 실시간 경로 링크를 생성했습니다. 아래 버튼을 눌러 확인하세요!")
+        st.write("입력하신 출발지와 목적지가 자동으로 세팅된 실시간 경로 지도입니다. 아래 버튼을 눌러 바로 확인하세요!")
         
-        # 🔗 한글 주소를 인터넷 링크용 글자로 변환 (URL 인코딩)
-        encoded_start = urllib.parse.quote(current_location)
-        encoded_end = urllib.parse.quote(f"{destination} {selected_restaurant}")
+        # 🔗 지도 서비스가 한글을 정확히 읽을 수 있도록 글자 인코딩
+        start_place = urllib.parse.quote(current_location)
+        end_place = urllib.parse.quote(f"{destination} {selected_restaurant}")
         
-        # 실제 길찾기 URL 생성
-        kakao_map_url = f"https://map.kakao.com/?sName={encoded_start}&eName={encoded_end}"
-        naver_map_url = f"https://map.naver.com/index.nhn?slng=&slat=&stext={encoded_start}&elng=&elat=&etext={encoded_end}&menu=route"
+        # ⭐ [수정] 출발지와 목적지가 100% 자동 입력되는 최신 공식 길찾기 링크 주소
+        kakao_map_url = f"https://map.kakao.com/?sName={start_place}&eName={end_place}"
+        naver_map_url = f"https://map.naver.com/v5/dir/{start_place}/{end_place}"
         
         # 스트림릿 화면에 이쁜 버튼으로 배치
         col1, col2 = st.columns(2)
         with col1:
-            st.link_button("💛 카카오맵으로 실시간 길찾기", kakao_map_url, use_container_width=True)
+            st.link_button("💛 카카오맵 자동 길찾기", kakao_map_url, use_container_width=True)
         with col2:
-            st.link_button("💚 네이버맵으로 실시간 길찾기", naver_map_url, use_container_width=True)
+            st.link_button("💚 네이버맵 자동 길찾기", naver_map_url, use_container_width=True)
